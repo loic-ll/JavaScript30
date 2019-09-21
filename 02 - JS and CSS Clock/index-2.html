@@ -38,7 +38,7 @@
       width: 30rem;
       height: 30rem;
       border: 20px solid white;
-      /*border-radius: 50%;*/
+      border-radius: 50%;
       margin: 50px auto;
       position: relative;
       padding: 2rem;
@@ -62,48 +62,37 @@
       background: black;
       position: absolute;
       top: 50%;
-      transform-origin:right;
+      transform-origin: 100%;
       transform: rotate(90deg);
-    }
-
-    .hour-hand {
-      left: 20%;
-      width: 30%;
-    }
-
-    .min-hand {
-      left: 10%;
-      width: 40%;
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
 
   </style>
 
   <script>
-    (function(window, document){
-      const hhHand = document.getElementsByClassName('hour-hand')[0];
-      const mmHand = document.getElementsByClassName('min-hand')[0];
-      const ssHand = document.getElementsByClassName('second-hand')[0];
-      console.log(hhHand, mmHand, ssHand);
+    const hourHand = document.querySelector('.hour-hand');
+    const minuteHand = document.querySelector('.min-hand');
+    const secondHand = document.querySelector('.second-hand');
 
-      function update() {
-        const now = new Date(Date.now());
-        const hh = now.getHours();
-        const mm = now.getMinutes();
-        const ss = now.getSeconds();
+    function setDate() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
 
-        const rhh = 90 + (hh * 30);
-        const rmm = 90 + (mm * 6);
-        const rss = 90 + (ss * 6);
+      const hoursDegrees = ((hours / 12) * 360) + 90;
+      const minutesDegrees = ((minutes / 60) * 360) + 90;
+      const secondsDegrees = ((seconds / 60) * 360) + 90;
 
-        hhHand.style.setProperty('transform', `rotate(${rhh}deg)`);
-        mmHand.style.setProperty('transform', `rotate(${rmm}deg)`);
-        ssHand.style.setProperty('transform', `rotate(${rss}deg)`);
+      hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+      minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
+      secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+      console.log(seconds);
+    }
 
-      }
+    setInterval(setDate, 1000);
 
-      update();
-      setInterval(update, 1000);
-    })(window, document);
   </script>
 </body>
 </html>
